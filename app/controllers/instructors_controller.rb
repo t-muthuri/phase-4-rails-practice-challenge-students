@@ -14,18 +14,22 @@ rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
     end
 
     def update
-    instructor = Instructor.find(params[:id])
+    instructor = find
     instructor.update(instructor_params)
     render json: instructor
     end
 
     def destroy
-    instructor = Instructor.find(params[:id])
+    instructor = find
     instructor.destroy
     head :no_content
     end
     
     private
+
+    def find
+        Instructor.find(params[:id])
+    end
 
     def instructor_params
         params.permit (:name)
